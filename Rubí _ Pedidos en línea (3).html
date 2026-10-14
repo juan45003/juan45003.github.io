@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rubí | Pedidos en línea</title>
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#d91f32">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#d92a3a">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f5f7;--card:#fff;--soft:#eceef2;--text:#23262d;--mut:#5f6673;--line:#e3e5ea;--red:#d91f32;--rd:#b8172a;--tint:#fdecee;--ok:#1a8a55;--bad:#b8172a;--glow:rgba(217,31,50,.16);--sh:0 10px 28px rgba(35,38,45,.09);--f:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#17181c;--card:#212328;--soft:#2b2e35;--text:#f2f3f5;--mut:#a7adb8;--line:#343741;--red:#d92a3a;--rd:#ff7c88;--tint:#3a1e23;--ok:#4cd08d;--bad:#ff7c88;--glow:rgba(217,42,58,.28);--sh:0 10px 28px rgba(0,0,0,.4)}}
+:root[data-theme=dark]{--bg:#17181c;--card:#212328;--soft:#2b2e35;--text:#f2f3f5;--mut:#a7adb8;--line:#343741;--red:#d92a3a;--rd:#ff7c88;--tint:#3a1e23;--ok:#4cd08d;--bad:#ff7c88;--glow:rgba(217,42,58,.28);--sh:0 10px 28px rgba(0,0,0,.4)}
+*,*::before,*::after{box-sizing:border-box;margin:0}
+html{scroll-padding-top:env(safe-area-inset-top,0px);min-height:100%}
+body{min-height:100%;font:15px/1.5 var(--f);color:var(--text);background:var(--bg)}
+[hidden]{display:none!important}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+input{font-size:16px}
+:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+h1,h2,h3,.logo,.big{font-family:var(--f);font-weight:800;letter-spacing:-.02em}
+small,.mut{color:var(--mut)}
+.btn{background:var(--red);color:#fff;padding:11px 20px;border-radius:10px;font-weight:700;transition:.15s}
+.btn:hover:not(:disabled){background:var(--rd)}.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.g{background:none;color:var(--text);border:1px solid var(--line)}.btn.g:hover:not(:disabled){background:var(--soft)}
+.ic{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--card);flex:none}
+.auth{display:grid;grid-template-columns:1.05fr .95fr;min-height:100vh}
+.hero{background:var(--red);color:#fff;padding:clamp(28px,5vw,64px);display:flex;flex-direction:column;justify-content:space-between;gap:28px}
+.hero h1{font-size:clamp(38px,5.6vw,68px);line-height:1;max-width:11ch}.hero p{margin-top:14px;font-size:18px;max-width:34ch}
+.hero ul{list-style:none;padding:0;display:grid;gap:8px;font-weight:600}
+.logo{font-size:26px;color:#fff}
+.side-a{display:grid;place-items:center;padding:28px;position:relative}.tg{position:absolute;top:18px;right:18px}
+.box{width:100%;max-width:400px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:30px;box-shadow:var(--sh)}
+.tabs,.tabs2{display:grid;grid-template-columns:1fr 1fr;background:var(--soft);border-radius:10px;padding:4px;margin:18px 0}.tabs2{grid-template-columns:repeat(3,1fr);margin:16px 0 0}
+.tabs button,.tabs2 button{padding:9px;border-radius:8px;font-weight:600;color:var(--mut)}.tabs .on,.tabs2 .on{background:var(--card);color:var(--text);box-shadow:0 1px 6px rgba(0,0,0,.14)}
+.f{display:block;margin-bottom:14px;font-size:13px;font-weight:600}.f div{position:relative;margin-top:6px}
+.f input{width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--text);font:inherit;font-size:16px;outline:0}
+.f input:focus{border-color:var(--red);box-shadow:0 0 0 3px var(--glow)}
+.eye{position:absolute;right:8px;top:6px;padding:6px}
+#msg{min-height:22px;font-size:13px;margin-bottom:8px}#msg.err{color:var(--bad)}#msg.ok{color:var(--ok)}
+.demo{margin-top:16px;padding:12px 14px;border-radius:10px;background:var(--soft);font-size:13px;display:flex;gap:10px;align-items:center;justify-content:space-between}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:10px clamp(14px,3vw,32px);background:var(--red);color:#fff}
+.top .logo{font-size:24px}.sp{flex:1}
+.srch{display:flex;align-items:center;flex:1 1 260px;max-width:460px;background:var(--card);border-radius:10px;padding:3px 3px 3px 14px;color:var(--text)}
+.srch input{border:0;background:none;flex:1;min-width:0;padding:7px 0;color:var(--text)}.srch input:focus{outline:0}
+.srch button{padding:8px 11px;border-radius:8px;background:var(--red);color:#fff}
+.hb,.chip{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:10px;font-size:14px;font-weight:600;color:#fff}
+.hb:hover{background:rgba(255,255,255,.16)}.chip{background:rgba(255,255,255,.14)}.chip b{font-variant-numeric:tabular-nums}
+.cart b{min-width:22px;padding:0 6px;border-radius:99px;background:#fff;color:var(--red);text-align:center}
+.top .ic{background:none;border-color:rgba(255,255,255,.45);color:#fff}.top .ic:hover{background:rgba(255,255,255,.16)}
+.catnav{display:flex;overflow-x:auto;padding:0 clamp(8px,2vw,24px);background:var(--card);border-bottom:1px solid var(--line);scrollbar-width:none}.catnav::-webkit-scrollbar{display:none}
+.cl{flex:none;width:88px;display:grid;justify-items:center;align-content:start;gap:2px;padding:10px 4px 8px;font-size:12px;font-weight:600;line-height:1.2;text-align:center;text-wrap:balance;color:var(--mut);border-bottom:3px solid transparent}
+.cl:first-child{margin-left:auto}.cl:last-child{margin-right:auto}.cl i{font-style:normal;font-size:22px}.cl:hover{color:var(--text)}.cl.on{color:var(--rd);border-color:var(--red)}
+.tagr{display:inline-block;margin:2px 0 14px;padding:4px 12px;border-radius:99px;background:var(--tint);color:var(--rd);font-size:11px;font-weight:700}
+.steps{display:flex;gap:4px;max-width:1120px;margin:20px auto 4px;padding:0 20px;overflow-x:auto}
+.st{flex:1;min-width:78px;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;color:var(--mut);position:relative;padding:4px}.st:disabled{cursor:default}
+.st i{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-weight:700;border:2px solid var(--line);background:var(--card);z-index:1}
+.st:not(:last-child)::after{content:"";position:absolute;top:20px;left:calc(50% + 20px);width:calc(100% - 40px);height:2px;background:var(--line)}
+.st.done i{background:var(--red);border-color:var(--red);color:#fff}.st.done::after{background:var(--red)}
+.st.cur i{border-color:var(--red);color:var(--rd);box-shadow:0 0 0 4px var(--glow)}.st.cur{color:var(--text);font-weight:700}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:24px;max-width:1120px;margin:18px auto 60px;padding:0 20px;align-items:start}
+.side{position:sticky;top:76px;display:grid;gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-top:16px}.side .card{margin:0}
+h2{font-size:clamp(24px,3.4vw,32px);line-height:1.15;margin-bottom:4px}h3{font-size:19px;margin-bottom:10px}
+.v{animation:up .4s both}@keyframes up{from{opacity:0;transform:translateY(10px)}}
+.sh{margin:26px 0 10px;font-size:15px;font-weight:700;display:flex;gap:10px;align-items:center}.sh::after{content:"";flex:1;height:1px;background:var(--line);order:1}.sh .lk{order:2;color:var(--rd);font-weight:600;font-size:13px}
+.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.pr{position:relative;padding:12px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);display:grid;gap:4px;text-align:left;transition:.15s}.pr:hover{border-color:var(--red)}.pr.on{border-color:var(--red);box-shadow:0 0 0 3px var(--glow)}
+.pr em,.row em{font-style:normal;font-size:38px;display:grid;place-items:center;height:78px;border-radius:8px;background:var(--soft);margin-bottom:4px}
+.pr small{font-weight:700;color:var(--text)}.pr .ag{font-size:12px;font-weight:700;color:var(--rd)}
+.pr .rb{position:absolute;top:8px;right:8px;font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;background:var(--red);color:#fff}.pr .rb.s{background:none;color:var(--red);font-size:15px;padding:0}
+.row{display:flex;align-items:center;gap:14px;padding:12px;margin-top:10px;border-radius:12px;background:var(--card);border:1px solid var(--line)}.row em{height:52px;width:52px;font-size:28px;margin:0;flex:none}.row>div:not(.qty){flex:1;display:grid}
+.qty{display:flex;align-items:center;gap:10px}.qty button{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);font-size:18px;background:var(--soft)}.qty button:hover{background:var(--red);color:#fff}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:24px}
+.tl2,.mini{display:flex;justify-content:space-between;gap:16px;padding:6px 0;font-size:14px}
+.big{font-size:20px;color:var(--rd);border-top:1px dashed var(--line);margin-top:6px;padding-top:12px}
+.bar{height:8px;border-radius:9px;background:var(--soft);margin:12px 0 6px;overflow:hidden}.bar i{display:block;height:100%;background:var(--red);transition:width .5s}
+.ad{display:flex;gap:14px;align-items:center;width:100%;text-align:left;padding:14px 16px;margin-top:10px;border-radius:12px;border:1.5px solid var(--line);background:var(--card)}.ad.on{border-color:var(--red);box-shadow:0 0 0 3px var(--glow)}.ad i{font-style:normal;color:var(--red);font-size:18px}.ad div{display:grid}
+.add{margin-bottom:12px}
+.rq{border-left:4px solid var(--red)}.rq p{margin:6px 0 10px;font-size:16px;line-height:1.4}.rq div span{display:inline-block;margin:0 6px 6px 0;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:700;color:var(--ok);border:1px solid var(--ok)}
+.hero2{text-align:center}.ok-ic{width:64px;height:64px;margin:0 auto 12px;border-radius:50%;background:var(--ok);color:#fff;display:grid;place-items:center;font-size:32px;animation:pop .5s both}@keyframes pop{from{transform:scale(0)}60%{transform:scale(1.15)}}
+.code div{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:6px;flex-wrap:wrap}.code b{font:700 21px ui-monospace,Menlo,monospace;letter-spacing:.05em;color:var(--rd);overflow-wrap:anywhere}
+.road{position:relative;height:6px;border-radius:9px;background:var(--soft);margin:34px 16px 30px}.road i{display:block;height:100%;border-radius:9px;background:var(--red);transition:width 1s}.road span{position:absolute;top:-25px;transform:translateX(-50%) scaleX(-1);font-size:26px;transition:left 1s}
+.tlv{list-style:none;padding:0;display:grid;gap:14px}.tlv li{display:flex;gap:14px;align-items:center;opacity:.45;transition:opacity .4s}.tlv li.d{opacity:1}.tlv li i{font-style:normal;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--soft);border:2px solid var(--line);flex:none}.tlv li.c i{border-color:var(--red);animation:pulse 1.6s infinite}.tlv div{display:grid}
+@keyframes pulse{50%{box-shadow:0 0 0 8px var(--glow)}}
+.hint{margin-top:12px;font-size:12px;color:var(--mut);display:flex;gap:6px;flex-wrap:wrap;align-items:center}.hint button{padding:4px 10px;border-radius:99px;border:1px dashed var(--line);color:var(--rd);font-weight:700;font-size:12px}
+.oh,.of,.lv{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.oh>div,.of>div:first-child,.lv>div{display:grid}
+.bd{padding:3px 11px;border-radius:99px;font-size:12px;font-weight:700;background:var(--tint);color:var(--rd)}.bd.ok{background:rgba(26,138,85,.14);color:var(--ok)}
+.oi{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0;padding:12px 0;border-block:1px dashed var(--line)}.oi span{font-size:13px;padding:3px 9px;border-radius:8px;background:var(--soft)}
+.of>div:last-child{display:flex;gap:8px}.of .btn{padding:8px 14px}.lv{border-left:4px solid var(--red)}
+.cps{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px}
+.cp{display:grid;grid-template-columns:112px 1fr;background:var(--card);border:1px solid var(--line);border-radius:12px;position:relative;overflow:hidden}
+.cp::before,.cp::after{content:"";position:absolute;left:101px;width:22px;height:22px;border-radius:50%;background:var(--bg);border:1px solid var(--line)}.cp::before{top:-11px}.cp::after{bottom:-11px}
+.cs{background:var(--red);color:#fff;display:grid;place-items:center;text-align:center;padding:12px;font-weight:800;font-size:19px;line-height:1.1;letter-spacing:-.02em}
+.cb{padding:14px;display:grid;gap:8px;border-left:2px dashed var(--line)}.cb code{font:700 13px ui-monospace,Menlo,monospace;color:var(--rd)}.cb .btn{padding:7px 14px;justify-self:start}.cp.on{border-color:var(--red);box-shadow:0 0 0 3px var(--glow)}
+.hint{margin-top:12px}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);opacity:0;padding:10px 18px;border-radius:99px;background:var(--text);color:var(--bg);font-weight:600;transition:.3s;z-index:60;pointer-events:none}#toast.on{opacity:1;transform:translate(-50%,0)}
+.cf{position:fixed;top:-14px;width:8px;height:14px;border-radius:2px;z-index:99;pointer-events:none;animation:fall 2.4s ease-in forwards}@keyframes fall{to{transform:translate(var(--x),105vh) rotate(720deg)}}
+@media(max-width:880px){.auth,.grid{grid-template-columns:1fr}.side{position:static}.hero{gap:20px}}
+@media(max-width:820px){.hb span,.chip.usr{display:none}}
+@media(max-width:680px){.srch{order:5;flex:1 1 100%;max-width:none}}
+@media(max-width:520px){.row{flex-wrap:wrap}.cps{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="auth" class="auth">
+  <section class="hero">
+    <span class="logo">◆ <span data-app>Rubí</span></span>
+    <div><h1>Pide hoy, recibe mañana.</h1><p>Alimentos, farmacia, moda, tecnología y más en un solo pedido.</p></div>
+    <ul><li>✓ Envío gratis desde $150.000</li><li>✓ Cupones y ofertas</li><li>✓ Rastreo de cada pedido</li></ul>
+  </section>
+  <section class="side-a">
+    <button class="ic tg" data-a="theme" title="Cambiar tema" aria-label="Cambiar tema">◐</button>
+    <div class="box">
+      <h2 id="ttl">Bienvenido de nuevo</h2>
+      <p class="mut">Ingresa para comenzar tu pedido.</p>
+      <div class="tabs"><button id="tin" class="on" data-a="mode" data-v="in">Iniciar sesión</button><button id="treg" data-a="mode" data-v="reg">Crear cuenta</button></div>
+      <label class="f">Usuario<div><input id="u" autocomplete="username" placeholder="tu_usuario"></div></label>
+      <label class="f">Contraseña<div><input id="p" type="password" autocomplete="current-password" placeholder="Mínimo 4 caracteres"><button class="eye" data-a="eye" title="Mostrar u ocultar" aria-label="Mostrar u ocultar contraseña">👁</button></div></label>
+      <p id="msg" aria-live="polite"></p>
+      <button class="btn" id="go" data-a="submit" style="width:100%">Iniciar sesión</button>
+      <div class="demo" id="demo"><span>Cuenta de ejemplo<br><b>demo</b> / <b>demo123</b></span><button class="btn g" data-a="demo" style="padding:8px 14px">Usar cuenta demo</button></div>
+    </div>
+  </section>
+</div>
+<div id="shop" hidden></div>
+<div id="toast"></div>
+<script>
+const APP="Rubí",PRE=APP.normalize("NFD").replace(/[^A-Za-z]/g,"").slice(0,3).toUpperCase(),K={u:"rubi_u",o:"rubi_ord"},$=s=>document.querySelector(s),R=document.documentElement,
+esc=s=>String(s).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';'),
+money=n=>new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',maximumFractionDigits:0}).format(n),
+mmss=ms=>{const s=Math.floor(ms/1e3);return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')},
+norm=s=>String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''),
+SEC={nw:{n:'Nuevos lanzamientos',e:'✨',d:'Lo último que llegó a la tienda'},al:{n:'Alimentos',e:'🍎',d:'Despensa y frescos'},fa:{n:'Farmacia',e:'💊',d:'Salud y bienestar'},h:{n:'Higiene',e:'🧴',d:'Cuidado personal y hogar'},b:{n:'Bebé',e:'🍼',d:'Todo para los más pequeños'},mo:{n:'Moda',e:'👕',d:'Ropa y calzado'},de:{n:'Deportes y fitness',e:'🏋️',d:'Entrena y muévete'},vj:{n:'Videojuegos',e:'🎮',d:'Consolas y juegos'},au:{n:'Automotriz',e:'🚗',d:'Mantenimiento y accesorios'},a:{n:'Accesorios',e:'🎧',d:'Tecnología y estilo'}},
+P=[['h','Cuidado personal','🧼','Jabón de avena',8900],['h','Cuidado personal','🧴','Shampoo natural',24500,'f'],['h','Cuidado personal','🪥','Cepillo de bambú',6500],['h','Cuidado personal','🦷','Crema dental blanqueadora',12900],['h','Cuidado personal','🧻','Desodorante en barra',15900,'f'],['h','Hogar','🧻','Papel higiénico x12',18900],['h','Hogar','🧽','Esponjas x3',7200],['h','Hogar','🧺','Detergente ecológico',21900,'f'],['h','Hogar','🧴','Limpiador multiusos 1 L',13900],['h','Hogar','🗑️','Bolsas de basura x20',9900],['a','Tecnología','🎧','Audífonos inalámbricos',89900,'f'],['a','Tecnología','🔌','Cargador rápido',39900],['a','Tecnología','⌚','Reloj inteligente',159900,'fn'],['a','Tecnología','🔋','Power bank 10000 mAh',69900,'n'],['a','Tecnología','🔊','Parlante Bluetooth',99900,'f'],['a','Estilo','🕶️','Gafas de sol',64900,'f'],['a','Estilo','🎒','Mochila urbana',119900],['a','Estilo','👛','Billetera de cuero',49900],['a','Estilo','🧢','Gorra deportiva',34900],['a','Estilo','⌚','Correa de reloj de cuero',29900],['al','Despensa','☕','Café molido 500 g',21900,'f'],['al','Despensa','🍚','Arroz blanco 2 kg',9800],['al','Despensa','🍝','Pasta integral 500 g',6900],['al','Despensa','🫒','Aceite de oliva 500 ml',28900,'f'],['al','Frescos','🥑','Aguacate Hass x2',9500],['al','Frescos','🥛','Leche entera x6',24900],['al','Frescos','🥚','Huevos AA x30',19900],['al','Frescos','🧀','Queso campesino 500 g',15900],['fa','Bienestar','💊','Vitamina C x60',32900,'f'],['fa','Bienestar','🩹','Curitas x50',8500],['fa','Bienestar','💊','Analgésico x20 tabletas',9900],['fa','Bienestar','🧴','Alcohol antiséptico 500 ml',8900],['fa','Cuidado','🌡️','Termómetro digital',28900,'n'],['fa','Cuidado','😷','Tapabocas x50',15900],['fa','Cuidado','🧴','Gel antibacterial 500 ml',12900,'f'],['fa','Cuidado','🧤','Guantes de nitrilo x50',24900],['b','Pañales','👶','Pañales etapa 3 x64',69900,'f'],['b','Pañales','🧻','Toallitas húmedas x120',14900],['b','Pañales','🧴','Crema antipañalitis',16900],['b','Pañales','👶','Pañales etapa 4 x56',74900,'n'],['b','Alimentación','🍼','Biberón anticólicos',26900],['b','Alimentación','🥣','Cereal infantil 400 g',18900,'n'],['b','Alimentación','🍼','Leche de fórmula 900 g',89900,'f'],['b','Alimentación','🧸','Chupete ortodóncico x2',12900],['mo','Ropa','👕','Camiseta básica',34900],['mo','Ropa','👖','Jean clásico',99900,'f'],['mo','Ropa','🧥','Chaqueta impermeable',149900,'n'],['mo','Ropa','👗','Vestido casual',89900],['mo','Calzado','👟','Tenis urbanos',179900,'fn'],['mo','Calzado','🧦','Medias deportivas x3',19900],['mo','Calzado','👡','Sandalias de verano',59900],['mo','Calzado','🥾','Botas de cuero',189900,'f'],['de','Entrenamiento','🏋️','Mancuernas 5 kg (par)',69900],['de','Entrenamiento','🧘','Tapete de yoga',45900,'f'],['de','Entrenamiento','🎗️','Banda de resistencia x3',29900],['de','Entrenamiento','⏱️','Cuerda para saltar',19900],['de','Aire libre','⚽','Balón de fútbol',54900],['de','Aire libre','🚴','Casco de ciclismo',89900,'n'],['de','Aire libre','🚲','Bicicleta todo terreno',899900,'f'],['de','Aire libre','🧤','Guantes de ciclismo',34900],['vj','Consolas','🎮','Control inalámbrico',219900,'f'],['vj','Consolas','🕹️','Consola portátil retro',329900,'n'],['vj','Consolas','🔌','Base de carga dual',79900],['vj','Consolas','🏎️','Volante para consola',249900,'n'],['vj','Juegos','💿','Juego de aventura',189900,'fn'],['vj','Juegos','🎧','Headset gamer',119900],['vj','Juegos','🏁','Juego de carreras',199900],['vj','Juegos','🪑','Silla gamer',649900,'f'],['au','Mantenimiento','🛢️','Aceite 10W-40 1 gal',89900],['au','Mantenimiento','🧴','Cera para carro',32900],['au','Mantenimiento','🧯','Filtro de aceite',24900],['au','Mantenimiento','🌧️','Limpiaparabrisas x2',39900],['au','Accesorios','📱','Soporte de celular',24900,'f'],['au','Accesorios','🔦','Linterna LED recargable',39900,'n'],['au','Accesorios','🔌','Cargador para carro USB-C',29900],['au','Accesorios','🚗','Cubre volante',34900,'f']].map((a,i)=>({id:i,k:a[0],s:a[1],e:a[2],n:a[3],p:a[4],feat:(a[5]||'').includes('f'),nw:(a[5]||'').includes('n')})),
+ST=[['Producto','RF-1','El sistema debe permitir al cliente seleccionar productos.'],['Cantidad','RF-2','El sistema debe permitir al cliente indicar cantidades.'],['Revisar','RF-3','El sistema debe permitir al cliente revisar el pedido.'],['Dirección','RF-4','El sistema debe permitir al cliente registrar y seleccionar diferentes direcciones de entrega antes de confirmar el pedido.','Nació de un cambio del usuario: nueva necesidad, adaptación, validación y verificación.'],['Confirmar','RF-5','El sistema debe permitir al cliente confirmar la compra.'],['Rastreo','RF-6','El cliente debe poder consultar el rastreo de su pedido.','Ahora también se puede consultar en cualquier momento desde la sección Rastreo.']],
+TL=[['Pedido confirmado','Recibimos tu pedido','📝'],['Preparando','Empacamos tus productos','📦'],['En camino','El repartidor va hacia ti','🚚'],['Entregado','Disfruta tu compra','🏠']],
+NF=[['RNF-1','Compatibilidad','El sistema debe verse y funcionar en PC y en celular, adaptando el diseño al tamaño de la pantalla.','Pantallas desde 320 px'],['RNF-2','Rendimiento','El sistema debe recalcular cantidades y totales en menos de 1 segundo.','Respuesta < 1 s'],['RNF-3','Localización','El sistema debe mostrar todos los valores en pesos colombianos (COP) con el formato local.','Moneda: COP'],['RNF-4','Usabilidad','El cliente debe poder escoger una dirección guardada con un solo toque.','1 toque'],['RNF-5','Seguridad','El sistema no debe guardar datos de tarjetas ni claves, solo el método de pago elegido.','0 datos sensibles guardados'],['RNF-6','Tiempo real','El estado del rastreo debe actualizarse solo, sin recargar la página, con un retraso máximo de 1 segundo.','Actualización < 1 s']],
+PAY=[['tc','💳','Tarjeta de crédito','Paga con tu tarjeta de crédito'],['td','💳','Tarjeta de débito','Paga con tu tarjeta de débito'],['ce','💵','Contra entrega','Pagas cuando recibes tu pedido'],['pse','🏦','PSE','Débito desde tu cuenta bancaria'],['nq','📱','Nequi','Paga desde tu app Nequi']],
+ST_MS=2e4;
+let S={area:'home',step:0,sector:'h',cart:{},addr:0,adding:false,query:'',trackCode:'',trackOrder:null,trackMsg:'',addrs:[{l:'Casa',d:'Calle 45 #12-30, Apto 302, Bogotá'},{l:'Oficina',d:'Carrera 7 #71-21, Torre B, Oficina 1204, Bogotá'}]},mode='in',tick,
+U=Object.assign(Object.create(null),{demo:'demo123'});
+try{Object.assign(U,JSON.parse(localStorage.getItem(K.u)||localStorage.getItem('aurea_u')||'{}'))}catch(e){}
+const NOW=Date.now(),CASA='Casa: Calle 45 #12-30, Apto 302, Bogotá',OFI='Oficina: Carrera 7 #71-21, Torre B, Bogotá',
+dm=(n,age,st,addr,its)=>{const items=its.map(([nm,q])=>{const p=P.find(y=>y.n==nm);return{n:nm,e:p.e,p:p.p,q}}),sub=items.reduce((a,x)=>a+x.p*x.q,0),ship=sub>=15e4?0:7900,code=PRE+'-DEMO-'+n+'-CO';return[code,{code,id:'PED-'+n,user:'demo',demo:1,addr,items,sub,disc:0,ship,total:sub+ship,n:items.reduce((a,x)=>a+x.q,0),conf:NOW-age,stage:st}]},
+ORD=Object.fromEntries([dm(1001,15e5,1,CASA,[['Jabón de avena',2],['Shampoo natural',1]]),dm(2002,72e5,2,OFI,[['Audífonos inalámbricos',1],['Cargador rápido',1]]),dm(3003,10368e5,3,CASA,[['Reloj inteligente',1],['Gafas de sol',1]]),dm(4004,2592e6,3,CASA,[['Café molido 500 g',2],['Arroz blanco 2 kg',2],['Vitamina C x60',1]])]);
+try{Object.assign(ORD,JSON.parse(localStorage.getItem(K.o)||'{}'))}catch(e){}
+const saveO=()=>{try{localStorage.setItem(K.o,JSON.stringify(Object.fromEntries(Object.entries(ORD).filter(([,o])=>!o.demo))))}catch(e){}},
+fdate=t=>new Date(t).toLocaleString('es-CO',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+const items=()=>P.filter(x=>S.cart[x.id]),count=()=>items().length,
+sub=()=>items().reduce((a,x)=>a+x.p*S.cart[x.id],0),
+CP=[{c:'BIENVENIDA10',h:'10% menos',d:'En toda tu compra desde $50.000',t:'pct',v:10,min:5e4},{c:'ENVIOGRATIS',h:'Envío gratis',d:'En compras desde $80.000',t:'ship',min:8e4},{c:'AHORRA20',h:'$20.000 menos',d:'En compras desde $150.000',t:'off',v:2e4,min:15e4},{c:'FARMA15',h:'15% en Farmacia',d:'Solo productos de Farmacia',t:'pct',v:15,min:1,k:'fa'},{c:'GAMER30',h:'$30.000 menos',d:'Solo Videojuegos, desde $200.000',t:'off',v:3e4,min:2e5,k:'vj'}],
+base=c=>items().filter(x=>!c.k||x.k==c.k).reduce((a,x)=>a+x.p*S.cart[x.id],0),
+elig=c=>base(c)>=c.min,
+disc=()=>{const c=S.cp;if(!c||!elig(c))return 0;const b=base(c);return c.t=='pct'?Math.round(b*c.v/100):c.t=='off'?Math.min(c.v,b):0},
+ship=()=>sub()>=15e4||(S.cp&&S.cp.t=='ship'&&elig(S.cp))?0:7900,
+tot=()=>sub()-disc()+ship(),
+units=()=>items().reduce((n,x)=>n+S.cart[x.id],0),
+stageOf=o=>Number.isInteger(o.stage)?o.stage:Math.min(3,Math.floor((Date.now()-o.conf)/ST_MS)),
+stageTimes=o=>TL.map((_,i)=>new Date(o.conf+i*ST_MS).toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit'})),
+matches=q=>{q=norm(q).trim();return q?P.filter(x=>norm(x.n).includes(q)||norm(x.s).includes(q)||norm(SEC[x.k].n).includes(q)):[]};
+document.querySelectorAll("[data-app]").forEach(e=>e.textContent=APP);
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),2200)}
+function msg(t,c='err'){const m=$('#msg');m.textContent=t;m.className=c}
+function setMode(m){mode=m;$('#tin').classList.toggle('on',m=='in');$('#treg').classList.toggle('on',m=='reg');$('#ttl').textContent=m=='in'?'Bienvenido de nuevo':'Crea tu cuenta';$('#go').textContent=m=='in'?'Iniciar sesión':'Crear cuenta';$('#demo').hidden=m!='in';msg('')}
+function submit(){const u=$('#u').value.trim().toLowerCase(),p=$('#p').value;
+ if(!u||!p)return msg('Escribe tu usuario y tu contraseña.');
+ if(mode=='reg'){
+  if(u.length<3||p.length<4)return msg('Usa mínimo 3 caracteres en el usuario y 4 en la contraseña.');
+  if(U[u])return msg('Ese usuario ya existe. Inicia sesión o elige otro nombre.');
+  U[u]=p;try{localStorage.setItem(K.u,JSON.stringify(U))}catch(e){}
+  setMode('in');$('#p').value='';return msg('Cuenta creada. Ahora inicia sesión.','ok')}
+ if(U[u]!==p)return msg('Usuario o contraseña incorrectos. Revisa los datos o crea una cuenta.');
+ S.user=u;enter()}
+function enter(){$('#auth').hidden=true;const s=$('#shop');s.hidden=false;Object.assign(S,{area:'home',step:0,sector:'al',cart:{},order:null,adding:false,query:'',trackCode:'',trackOrder:null,trackMsg:'',cp:null,pay:null,hf:'all',t0:Date.now(),t1:0});
+ s.innerHTML=`<header class="top"><button class="logo" data-a="area" data-v="home">◆ ${APP}</button><div class="srch"><input id="q" placeholder="Buscar en todo el catálogo" aria-label="Buscar productos"><button data-a="search" aria-label="Buscar">🔍</button></div><span class="sp"></span><button class="hb" data-a="area" data-v="track" aria-label="Rastreo">📦<span>Rastreo</span></button><button class="hb" data-a="area" data-v="orders" aria-label="Mis pedidos">🧾<span>Mis pedidos</span></button><button class="hb cart" data-a="cart" aria-label="Carrito">🛒<b id="cartn">0</b></button><span class="chip usr">👤 ${esc(S.user)}</span><button class="ic" data-a="theme" title="Cambiar tema" aria-label="Cambiar tema">◐</button><button class="ic" data-a="out" title="Cerrar sesión" aria-label="Cerrar sesión">⎋</button></header><nav class="catnav" id="catnav" aria-label="Catálogo">${NV.map(([a,v,e,n])=>`<button class="cl" data-a="${a}" data-v="${v}"><i>${e}</i>${n}</button>`).join('')}</nav><nav class="steps" id="steps"></nav><main class="grid"><section id="main"></section><aside class="side" id="side"></aside></main>`;
+ clearInterval(tick);tick=setInterval(()=>{document.querySelectorAll('[data-live]').forEach(el=>{const o=ORD[el.dataset.live];if(o&&+el.dataset.stage!==stageOf(o))paint(el,o)})},500);render()}
+function paint(el,o){const st=stageOf(o),tm=stageTimes(o);el.dataset.stage=st;
+ if(el.matches('.bd')){el.textContent=TL[st][0];el.classList.toggle('ok',st==3);return}
+ el.querySelector('.road i').style.width=st*100/3+'%';el.querySelector('.road span').style.left=st*100/3+'%';
+ el.querySelectorAll('.tlv li').forEach((li,i)=>{li.className=(i<=st?'d ':'')+(i==st&&st<3?'c':'');li.querySelector('i').textContent=i<=st?TL[i][2]:'·';li.querySelector('small').textContent=i<=st?TL[i][1]+', '+tm[i]:'Pendiente'})}
+const nav=(back,label,dis)=>`<div class="nav">${back?'<button class="btn g" data-a="back">Volver</button>':'<span></span>'}<button class="btn" data-a="next" ${dis?'disabled':''}>${label}</button></div>`,
+contBtn=()=>count()?`<div class="nav"><span></span><button class="btn" data-a="tocart">Continuar con ${count()} producto${count()>1?'s':''}</button></div>`:'',
+prCard=x=>`<button class="pr ${S.cart[x.id]?'on':''}" data-a="tog" data-v="${x.id}">${x.nw?'<span class="rb">Nuevo</span>':x.feat?'<span class="rb s">★</span>':''}<em>${x.e}</em><b>${x.n}</b><small>${money(x.p)}</small><span class="ag">${S.cart[x.id]?'✓ Agregado':'+ Agregar'}</span></button>`,
+totals=()=>`<div class="tl2"><span>Subtotal</span><span>${money(sub())}</span></div>${S.cp?`<div class="tl2"><span>Cupón ${S.cp.c}</span><span>${disc()?'−'+money(disc()):'Aún no aplica'}</span></div>`:''}<div class="tl2"><span>Envío</span><span>${ship()?money(ship()):'Gratis'}</span></div><div class="tl2 big"><span>Total</span><span>${money(tot())}</span></div>`,
+free=()=>ship()?`<div class="bar"><i style="width:${Math.min(100,sub()/1500)}%"></i></div><small>Te faltan ${money(150000-sub())} para tener envío gratis.</small>`:'<small>🎉 Tu envío es gratis.</small>',
+home=()=>{const lv=Object.values(ORD).filter(o=>o.user==S.user&&stageOf(o)<3).sort((a,b)=>b.conf-a.conf)[0];
+ return`<h2>Hola, ${esc(S.user)}</h2>${lv?`<div class="card lv"><div><b>Pedido ${lv.id} en curso</b><small>${lv.n} unidades · ${money(lv.total)}</small></div><span class="bd" data-live="${lv.code}" data-stage="${stageOf(lv)}">${TL[stageOf(lv)][0]}</span><button class="btn" data-a="try" data-v="${lv.code}">Rastrear</button></div>`:''}<div class="sh">Recomendados para ti<button class="lk" data-a="cat" data-v="nw">Ver nuevos lanzamientos</button></div><div class="pg">${P.filter(x=>x.feat).slice(0,8).map(prCard).join('')}</div><div class="sh">Cupones<button class="lk" data-a="area" data-v="coupons">Ver todos</button></div><div class="cps">${CP.slice(0,2).map(cpc).join('')}</div>${contBtn()}`},
+searchv=()=>{const q=(S.query||'').trim();if(!q)return`<h2>Buscar productos</h2><p class="mut">Escribe el nombre de lo que buscas en la barra de arriba.</p>${contBtn()}`;const r=matches(q);return`<h2>Resultados para "${esc(q)}"</h2><p class="mut">${r.length} producto${r.length==1?'':'s'} encontrado${r.length==1?'':'s'}.</p>${r.length?`<div class="pg">${r.map(prCard).join('')}</div>`:'<div class="card">No encontramos productos con ese nombre. Prueba con otra palabra o explora las categorías desde el inicio.</div>'}${contBtn()}`},
+track=()=>{const mine=Object.values(ORD).filter(o=>o.user==S.user).sort((a,b)=>b.conf-a.conf).slice(0,3),ex=mine.length?mine:Object.values(ORD).filter(o=>o.demo).slice(0,3);
+ return`<h2>Rastrea tu pedido</h2><p class="mut">Ingresa el código que recibiste al confirmar tu compra.</p><span class="tagr">RF-6 · Consulta en cualquier momento — ✔ Validado</span> <span class="tagr">RNF-6 · El estado se actualiza solo, en menos de 1 s</span><div class="card"><label class="f">Código de rastreo<div><input id="tc" placeholder="${PRE}-XXXX-0000-CO" style="text-transform:uppercase" autocomplete="off" value="${esc(S.trackCode||'')}"></div></label><button class="btn" data-a="dotrack">Consultar estado</button><div class="hint">${mine.length?'Tus pedidos:':'Prueba con un ejemplo:'}${ex.map(o=>`<button data-a="try" data-v="${o.code}">${o.code}</button>`).join('')}</div></div>${S.trackMsg?`<div class="card">${S.trackMsg}</div>`:''}${S.trackOrder?trackResult(S.trackOrder):''}`},
+trk=o=>{const st=stageOf(o),tm=stageTimes(o);return`<div class="card" data-live="${o.code}" data-stage="${st}"><div class="road"><i style="width:${st*100/3}%"></i><span style="left:${st*100/3}%">🚚</span></div><ol class="tlv">${TL.map((t,i)=>`<li class="${i<=st?'d':''} ${i==st&&st<3?'c':''}"><i>${i<=st?t[2]:'·'}</i><div><b>${t[0]}</b><small>${i<=st?t[1]+', '+tm[i]:'Pendiente'}</small></div></li>`).join('')}</ol></div>`},
+trackResult=o=>`<div class="card code"><small>Pedido ${o.id}</small><div><b>${o.code}</b></div><small class="mut">Entrega en ${esc(o.addr)} · ${o.n} unidades · ${money(o.total)}</small></div>${trk(o)}`,
+v0=()=>{const k=S.sector,gk=x=>k=='nw'?SEC[x.k].n:x.s,list=k=='nw'?P.filter(x=>x.nw):P.filter(x=>x.k==k),gs=[...new Set(list.map(gk))];
+ return`<h2>${SEC[k].n}</h2><p class="mut">${SEC[k].d}</p>${gs.map(n=>`<div class="sh">${n}</div><div class="pg">${list.filter(x=>gk(x)==n).map(prCard).join('')}</div>`).join('')}${nav(0,count()?`Continuar con ${count()} producto${count()>1?'s':''}`:'Elige un producto',!count())}`},
+v1=()=>`<h2>Indica las cantidades</h2><p class="mut">Puedes pedir hasta 10 unidades de cada producto.</p>${items().map(x=>`<div class="row"><em>${x.e}</em><div><b>${x.n}</b><small>${SEC[x.k].n} › ${x.s}. ${money(x.p)} c/u</small></div><div class="qty"><button data-a="q" data-v="${x.id}" data-d="-1" aria-label="Restar">−</button><b>${S.cart[x.id]}</b><button data-a="q" data-v="${x.id}" data-d="1" aria-label="Sumar">+</button></div><strong>${money(x.p*S.cart[x.id])}</strong></div>`).join('')}${nav(1,'Revisar pedido')}`,
+v2=()=>`<h2>Revisa tu pedido</h2><p class="mut">Quita lo que no necesites antes de elegir la dirección.</p>${items().map(x=>`<div class="row"><em>${x.e}</em><div><b>${x.n}</b><small>${S.cart[x.id]} × ${money(x.p)}</small></div><strong>${money(x.p*S.cart[x.id])}</strong><button class="ic" data-a="rm" data-v="${x.id}" title="Quitar" aria-label="Quitar ${x.n}">✕</button></div>`).join('')}<div class="card">${totals()}${free()}</div>${nav(1,'Elegir dirección')}`,
+v3=()=>`<h2>Elige la dirección de entrega</h2><p class="mut">Guarda varias direcciones y usa la que quieras en este pedido.</p>${S.addrs.map((a,i)=>`<button class="ad ${i==S.addr?'on':''}" data-a="addr" data-v="${i}"><i>${i==S.addr?'●':'○'}</i><div><b>${esc(a.l)}</b><small>${esc(a.d)}</small></div></button>`).join('')}<div style="margin-top:12px">${S.adding?`<div class="card add"><label class="f">Nombre de la dirección<div><input id="al" placeholder="Ej. Casa de mamá"></div></label><label class="f">Dirección<div><input id="ad" placeholder="Calle 10 #5-20, Ciudad"></div></label><button class="btn" data-a="save">Guardar dirección</button></div>`:'<button class="btn g" data-a="newaddr">Agregar dirección</button>'}</div>${nav(1,'Ir a confirmar')}`,
+v4=()=>{const a=S.addrs[S.addr];return`<h2>Confirma tu pedido</h2><p class="mut">Último paso: revisa el resumen y confirma la compra.</p><div class="card"><div class="tl2"><span>Productos</span><span>${units()} unidades de ${count()} referencias</span></div><div class="tl2"><span>Entrega en</span><span style="text-align:right">${esc(a.l)}: ${esc(a.d)}</span></div><div class="tl2"><span>Llegada estimada</span><span>Mañana, de 9:00 a 12:00</span></div>${totals()}</div><div class="sh">Método de pago</div>${PAY.map(([k,e,n,d])=>`<button class="ad ${S.pay==k?'on':''}" data-a="pay" data-v="${k}"><i>${S.pay==k?'●':'○'}</i><div><b>${e} ${n}</b><small>${d}</small></div></button>`).join('')}<small class="mut">Simulación: no se cobra ni se piden datos de tu tarjeta.</small><div class="nav"><button class="btn g" data-a="back">Volver</button><button class="btn" data-a="ok" ${S.pay?'':'disabled'}>${S.pay?'Confirmar pedido':'Elige un método de pago'}</button></div>`},
+v5=()=>{const o=S.order,ms=S.t1-S.t0;return`<div class="hero2"><div class="ok-ic">✓</div><h2>Pedido confirmado</h2><p class="mut">Pedido ${o.id} para ${esc(S.addrs[S.addr].l)} · Pago: ${(PAY.find(x=>x[0]==o.pay)||[])[2]||'—'}</p></div><div class="card code"><small>Código de rastreo</small><div><b>${o.code}</b><button class="btn g" data-a="copy">Copiar código</button></div><small class="mut">Guárdalo: puedes consultarlo desde Rastreo o en Mis pedidos.</small></div>${trk(o)}<div class="card">⏱ Hiciste tu pedido en <b>${mmss(ms)}</b>: ${ms<6e4?'dentro de la meta de 1 minuto ✔':'un poco por encima de la meta de 1 minuto'}. Así "rápido" dejó de ser ambiguo y ahora se puede comprobar.</div><div class="nav"><button class="btn g" data-a="area" data-v="orders">Mis pedidos</button><button class="btn" data-a="again">Hacer otro pedido</button></div>`},
+NV=[['area','home','🏠','Inicio'],['cat','nw','✨','Nuevos lanzamientos'],['area','coupons','🎟️','Cupones'],...Object.keys(SEC).filter(k=>k!='nw').map(k=>['cat',k,SEC[k].e,SEC[k].n])],
+cpc=c=>{const on=S.cp&&S.cp.c==c.c;return`<div class="cp ${on?'on':''}"><div class="cs">${c.h}</div><div class="cb"><b>${c.d}</b><code>${c.c}</code><button class="btn ${on?'g':''}" data-a="cp" data-v="${c.c}">${on?'Quitar':'Aplicar'}</button></div></div>`},
+cpv=()=>`<h2>Cupones</h2><p class="mut">Aplica uno y el descuento se resta al revisar tu pedido.</p><div class="cps" style="margin-top:16px">${CP.map(cpc).join('')}</div>${contBtn()}`,
+oc=o=>{const st=stageOf(o);return`<div class="card oc"><div class="oh"><div><b>Pedido ${o.id}</b><small>${fdate(o.conf)} · ${o.code}</small></div><span class="bd ${st==3?'ok':''}" data-live="${o.code}" data-stage="${st}">${TL[st][0]}</span></div><div class="oi">${o.items.map(x=>`<span>${x.e} ${esc(x.n)} ×${x.q}</span>`).join('')}</div><div class="of"><div><small>${esc(o.addr)}</small><b>${money(o.total)}</b></div><div><button class="btn g" data-a="try" data-v="${o.code}">Rastrear</button><button class="btn" data-a="re" data-v="${o.code}">Volver a pedir</button></div></div></div>`},
+orders=()=>{const all=Object.values(ORD).filter(o=>o.user==S.user).sort((a,b)=>b.conf-a.conf),f=S.hf,l=all.filter(o=>f=='all'||(f=='live')==(stageOf(o)<3));
+ return`<h2>Mis pedidos</h2><p class="mut">${all.length?all.length+' pedido'+(all.length>1?'s':'')+' en total':'Aún no has hecho pedidos.'}</p><div class="tabs2">${[['all','Todos'],['live','En curso'],['done','Entregados']].map(([k,t])=>`<button class="${f==k?'on':''}" data-a="hf" data-v="${k}">${t}</button>`).join('')}</div>${l.length?l.map(oc).join(''):'<div class="card">No hay pedidos en esta lista. Cuando confirmes uno, aparecerá aquí con su código de rastreo.</div>'}`},
+side=()=>{const cart=`<div class="card"><h3>Tu pedido</h3>${count()?items().map(x=>`<div class="mini"><span>${x.e} ${x.n} <small>×${S.cart[x.id]}</small></span><span>${money(x.p*S.cart[x.id])}</span></div>`).join('')+`<div class="tl2 big"><span>Total</span><span>${money(tot())}</span></div>`:'<p class="mut">Tu pedido está vacío. Elige un producto para empezar.</p>'}</div>`;
+ if(S.area!='shop')return cart;
+ const r=ST[S.step],n=NF[S.step];return cart+`<div class="card rq"><small>Requisito ${r[1]}</small><p>"${r[2]}"</p><div><span>✔ Validado</span><span>✔ Verificado</span></div>${r[3]?`<small>${r[3]}</small>`:''}</div><div class="card rq"><small>Requisito no funcional ${n[0]} · ${n[1]}</small><p>"${n[2]}"</p><div><span>📏 Métrica: ${n[3]}</span></div></div>`};
+function render(){const key=S.area+S.step+S.sector,ch=render.l!==key;render.l=key;
+ document.querySelectorAll('#catnav .cl').forEach(b=>b.classList.toggle('on',b.dataset.a=='area'?S.area==b.dataset.v:S.area=='shop'&&S.step==0&&S.sector==b.dataset.v));
+ const cn=$('#cartn');if(cn)cn.textContent=count();
+ $('#steps').hidden=S.area!='shop';
+ if(S.area=='shop'){$('#steps').innerHTML=ST.map((s,i)=>`<button class="st ${i<S.step?'done':''} ${i==S.step?'cur':''}" ${i<S.step&&S.step<5?`data-a="go" data-v="${i}"`:'disabled'}><i>${i<S.step?'✓':i+1}</i>${s[0]}</button>`).join('');
+  $('#main').innerHTML=`<div class="${ch?'v':''}">${[v0,v1,v2,v3,v4,v5][S.step]()}</div>`}
+ else $('#main').innerHTML=`<div class="${ch?'v':''}">${({home,search:searchv,track,orders,coupons:cpv})[S.area]()}</div>`;
+ $('#side').innerHTML=side();if(ch){scrollTo({top:0,behavior:'smooth'});const on=document.querySelector('#catnav .on');if(on)on.scrollIntoView({inline:'center',block:'nearest'})}}
+function confetti(){for(let i=0;i<36;i++){const c=document.createElement('i');c.className='cf';c.style.cssText=`left:${Math.random()*100}vw;background:${['#d91f32','#ff6b78','#9aa0ab','#ffd0d5'][i%4]};animation-delay:${Math.random()*.6}s;--x:${Math.random()*160-80}px`;document.body.append(c);setTimeout(()=>c.remove(),3400)}}
+function confirmOrder(){const conf=Date.now();S.t1=conf;const r=n=>Math.random().toString(36).slice(2,2+n).toUpperCase(),d=()=>Math.floor(1000+Math.random()*9000),code=PRE+'-'+r(4)+'-'+d()+'-CO',a=S.addrs[S.addr];
+ const o={code,id:'PED-'+d(),user:S.user,addr:a.l+': '+a.d,items:items().map(x=>({n:x.n,e:x.e,p:x.p,q:S.cart[x.id]})),sub:sub(),disc:disc(),ship:ship(),total:tot(),n:units(),conf,pay:S.pay};
+ ORD[code]=o;saveO();S.order=o;S.cart={};S.cp=null;S.pay=null;S.step=5;render();confetti()}
+function doSearch(){S.query=$('#q').value;S.area='search';render()}
+function doTrack(code){code=(code||$('#tc').value||'').trim().toUpperCase();S.trackCode=code;S.trackOrder=ORD[code]||null;S.trackMsg=S.trackOrder?'':(code?'No encontramos un pedido con ese código. Revisa que esté bien escrito o prueba uno de los ejemplos.':'Escribe tu código de rastreo.');S.area='track';render()}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,v=b.dataset.v;
+ if(a=='mode')return setMode(v);
+ if(a=='submit')return submit();
+ if(a=='demo'){$('#u').value='demo';$('#p').value='demo123';setMode('in');return msg('Cuenta demo cargada. Pulsa Iniciar sesión.','ok')}
+ if(a=='eye'){const p=$('#p');p.type=p.type=='password'?'text':'password';return}
+ if(a=='theme'){const d=matchMedia('(prefers-color-scheme:dark)').matches,c=R.dataset.theme||(d?'dark':'light');R.dataset.theme=c=='dark'?'light':'dark';return}
+ if(a=='out'){clearInterval(tick);$('#shop').hidden=true;$('#auth').hidden=false;$('#p').value='';setMode('in');return}
+ if(a=='search')return doSearch();
+ if(a=='dotrack')return doTrack();
+ if(a=='try')return doTrack(v);
+ if(a=='cart'){if(!count()){toast('Tu carrito está vacío. Agrega productos desde Inicio o el buscador.');return}S.area='shop';S.step=2}
+ else if(a=='area')S.area=v;
+ else if(a=='cat'){S.area='shop';S.sector=v;S.step=0}
+ else if(a=='tocart'){S.area='shop';S.step=1}
+ else if(a=='sector')S.sector=v;
+ else if(a=='tog'){S.cart[v]?delete S.cart[v]:S.cart[v]=1}
+ else if(a=='q')S.cart[v]=Math.max(1,Math.min(10,S.cart[v]+ +b.dataset.d));
+ else if(a=='rm'){delete S.cart[v];if(!count())S.step=0}
+ else if(a=='next')S.step++;
+ else if(a=='back')S.step--;
+ else if(a=='go')S.step=+v;
+ else if(a=='addr')S.addr=+v;
+ else if(a=='newaddr')S.adding=true;
+ else if(a=='save'){const l=$('#al').value.trim(),d=$('#ad').value.trim();if(!l||!d)return toast('Completa el nombre y la dirección.');S.addrs.push({l,d});S.addr=S.addrs.length-1;S.adding=false;toast('Dirección guardada ✔')}
+ else if(a=='pay')S.pay=v;
+ else if(a=='ok'){b.textContent='Confirmando…';b.disabled=true;setTimeout(confirmOrder,700);return}
+ else if(a=='copy'){try{navigator.clipboard.writeText(S.order.code).then(()=>toast('Código copiado ✔'),()=>toast('Copia el código manualmente.'))}catch(x){toast('Copia el código manualmente.')}return}
+ else if(a=='again'){Object.assign(S,{cart:{},step:0,area:'home',t0:Date.now(),t1:0,adding:false,cp:null})}
+ else if(a=='hf')S.hf=v;
+ else if(a=='cp'){S.cp=S.cp&&S.cp.c==v?null:CP.find(c=>c.c==v);toast(!S.cp?'Cupón quitado':elig(S.cp)?'Cupón aplicado ✔':'Guardado: se activa cuando tu carrito cumpla la condición.')}
+ else if(a=='re'){ORD[v].items.forEach(x=>{const p=P.find(y=>y.n==x.n);if(p)S.cart[p.id]=Math.min(10,x.q)});S.area='shop';S.step=2;toast('Agregamos los productos a tu carrito ✔')}
+ render()});
+document.addEventListener('keydown',e=>{if(e.key!='Enter')return;if(e.target.matches('#u,#p'))submit();else if(e.target.matches('#q'))doSearch();else if(e.target.matches('#tc'))doTrack()});
+</script>
+</body>
+</html>
